@@ -31,7 +31,6 @@ function Navbar() {
 
   return (
     <div>
-      navbar here
       <NavButton
         active={location.pathname === "/all"}
         dest={"/all"}

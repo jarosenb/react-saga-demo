@@ -9,7 +9,6 @@ import Navbar from "../Navbar/Navbar";
 function App() {
   return (
     <div className="container App">
-      Welcome to the App
       <div className="row">
         <div className="col-md-3">
           <Navbar />
@@ -18,7 +17,7 @@ function App() {
           <Switch>
             <Route exact path="/">
               {" "}
-              <Redirect to="/hello"></Redirect>{" "}
+              <Redirect to="/all"></Redirect>{" "}
             </Route>
             <Route path="/:id" children={<PostsListing />} />
           </Switch>
