@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import "./Navbar.css";
 
-function NavButton({ active, dest, title }) {
+export function NavButton({ active, dest, title }) {
   let history = useHistory();
 
   if (active) {

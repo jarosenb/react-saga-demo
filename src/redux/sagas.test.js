@@ -15,7 +15,7 @@ describe("sagas", () => {
 
   it("has a test", async () => {
     fetchMock.mock(`https://www.reddit.com/r/all.json`, {
-      body: { data: {children: []} },
+      body: { data: { children: [] } },
       status: 200
     });
     const dispatched = [];
@@ -23,15 +23,15 @@ describe("sagas", () => {
       {
         dispatch: action => dispatched.push(action)
       },
-      getPosts, {type: 'GET_POSTS', payload: 'all'}
+      getPosts,
+      { type: "GET_POSTS", payload: "all" }
     ).toPromise();
   });
 
-  
   it("test takeEvery using actual implementation", () => {
     const dispatched = [];
-    takeLatest.mockImplementation(() =>
-      jest.requireActual("redux-saga/effects")
+    takeLatest.mockImplementation(
+      jest.requireActual("redux-saga/effects").takeLatest
     );
     const gen = watchPosts();
     const genval = gen.next().value;
@@ -46,8 +46,7 @@ describe("sagas", () => {
         dispatch: action => dispatched.push(action)
       },
       watchPosts
-    ).toPromise();  
-    expect(takeLatest).lastCalledWith("GET_POSTS", getPosts)
+    ).toPromise();
+    expect(takeLatest).toBeCalledWith("GET_POSTS", getPosts);
   });
 });
-
