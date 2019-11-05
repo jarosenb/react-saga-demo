@@ -11,11 +11,12 @@ import assert from "assert";
 describe("sagas", () => {
   afterEach(() => {
     takeLatest.mockReset();
+    fetchMock.reset()
   });
 
-  it("has a test", async () => {
+  it("test getPosts with 200", async () => {
     fetchMock.mock(`https://www.reddit.com/r/all.json`, {
-      body: { data: { children: [] } },
+      body: { data: { children: [{ data: {title: 'title1'}}] } },
       status: 200
     });
     const dispatched = [];
@@ -27,6 +28,18 @@ describe("sagas", () => {
       { type: "GET_POSTS", payload: "all" }
     ).toPromise();
   });
+
+  it("test getPosts with 404", async () => {
+    fetchMock.mock(`https://www.reddit.com/r/asdfasdfasdf.json`, 404);
+    const dispatched = [];
+    const saga = await runSaga(
+      {
+        dispatch: action => dispatched.push(action)
+      },
+      getPosts,
+      { type: "GET_POSTS", payload: "asdfasdfasdf" }
+    ).toPromise();
+   });
 
   it("test takeEvery using actual implementation", () => {
     const dispatched = [];

@@ -46,6 +46,11 @@ function Navbar() {
         dest={"/aww"}
         title={"Aww"}
       />
+      <NavButton
+        active={location.pathname === "/asdfasdfasdf"}
+        dest={"/asdfasdfasdf"}
+        title={"Not a real page"}
+      />
     </div>
   );
 }

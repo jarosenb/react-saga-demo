@@ -1,6 +1,5 @@
-import React, { useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Switch, Route, Link, Redirect, useLocation } from "react-router-dom";
+import React from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
 import "./App.css";
 
 import PostsListing from "../PostsListing/PostsListing";
