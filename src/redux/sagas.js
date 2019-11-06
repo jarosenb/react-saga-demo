@@ -14,7 +14,6 @@ export function* getPosts(action) {
     );
     const json = yield data.json();
     yield put({ type: "FETCH_POSTS_SUCCESS", payload: json.data.children });
-    yield put({ type: "HIDE_SPINNER" });
   } catch {
     yield put({ type: "FETCH_POSTS_FAILURE" });
   }

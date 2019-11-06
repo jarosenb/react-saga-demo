@@ -16,36 +16,29 @@ import Navbar, { NavButton } from "./Navbar";
 const mockStore = configureStore();
 const store = mockStore({ posts: [] });
 
+function renderComponent(component, store, history) {
+  return render(
+    <Provider store={store}>
+      <Router history={history}>{component}</Router>
+    </Provider>
+  );
+}
+
 describe("navbar", () => {
   afterEach(() => {
     useHistory.mockReset();
-  });
-
-  it("renders without crashing", () => {
-    const div = document.createElement("div");
-    const history = createMemoryHistory();
-    ReactDOM.render(
-      <Provider store={store}>
-        <Router history={history}>
-          <Navbar />
-        </Router>
-      </Provider>,
-      div
-    );
-    ReactDOM.unmountComponentAtNode(div);
   });
 
   it("Check buttons get class from state", () => {
     useHistory.mockImplementation(
       jest.requireActual("react-router-dom").useHistory
     );
+
     const history = createMemoryHistory();
-    const { getByText, getByTestId } = render(
-      <Provider store={store}>
-        <Router history={history}>
-          <Navbar />
-        </Router>
-      </Provider>
+    const { getByText, getByTestId } = renderComponent(
+      <Navbar />,
+      store,
+      history
     );
     fireEvent.click(getByText(/All$/));
     expect(getByText(/All$/).className).toBe("btn btn-primary btn-block");
@@ -58,12 +51,10 @@ describe("navbar", () => {
     useHistory.mockReturnValue({ push: mock_push });
 
     const history = createMemoryHistory();
-    const { getByText, getByRole, baseElement } = render(
-      <Provider store={store}>
-        <Router history={history}>
-          <NavButton active={true} dest={"/all"} title={"All"} />
-        </Router>
-      </Provider>
+    const { getByText, getByRole, baseElement } = renderComponent(
+      <NavButton active={true} dest={"/all"} title={"All"} />,
+      store,
+      history
     );
 
     const button = getByRole("button");
