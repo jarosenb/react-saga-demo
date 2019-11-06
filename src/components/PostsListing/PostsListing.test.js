@@ -26,8 +26,8 @@ const renderComponent = (store, history) => {
   );
 };
 describe("posts-listing", () => {
-  it("Check buttons get class from state", () => {
-    const store = mockStore({ posts: mockPosts, spinner: false });
+  it("renders post content", () => {
+    const store = mockStore({ listing: { posts: mockPosts, loading: false } });
 
     const history = createMemoryHistory();
     history.push("/all");
@@ -44,7 +44,7 @@ describe("posts-listing", () => {
   });
 
   it("shows loading if loading", () => {
-    const store = mockStore({ posts: mockPosts, spinner: true });
+    const store = mockStore({ listing: { posts: mockPosts, loading: true } });
     const history = createMemoryHistory();
     history.push("/all");
 

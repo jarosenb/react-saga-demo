@@ -1,47 +1,34 @@
 import { combineReducers } from "redux";
 
-const counter = function(state = 0, action) {
-  switch (action.type) {
-    case "INCREMENT":
-      return state + 1;
-    case "DECREMENT":
-      return state - 1;
-    case "INCREMENT_WITH_PAYLOAD":
-      return state + action.payload;
-    default:
-      return state;
-  }
-};
+const initialListingState = {
+  loading: false,
+  err: false,
+  posts: []
+}
 
-const formField = function(state = 0, action) {
-  switch (action.type) {
-    case "FORMFIELD_UPDATE":
-      return parseInt(action.payload);
-    default:
-      return state;
-  }
-};
-
-const spinner = function(state = false, action) {
-  switch (action.type) {
-    case "SHOW_SPINNER":
-      return true;
-    case "HIDE_SPINNER": 
-      return false;
-    default:
-      return state;
-  }
-};
-
-const posts = function(state = [], action) {
+const listing = function(state = initialListingState, action) {
   switch(action.type) {
-    case "ADD_POSTS": 
-      return action.payload;
-    case "FLUSH_POSTS":
-      return [];
+    case "FETCH_POSTS_START": 
+      return {
+        loading: true,
+        err: false,
+        posts: []
+      }
+    case "FETCH_POSTS_SUCCESS":
+      return {
+        loading: false,
+        err: false,
+        posts: action.payload
+      };
+    case "FETCH_POSTS_FAILURE":
+      return {
+        loading: false,
+        err: true,
+        posts: []
+      }
     default:
       return state;
   }
 }
 
-export default combineReducers({ counter, formField, spinner, posts });
+export default combineReducers({ listing });

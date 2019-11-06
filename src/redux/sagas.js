@@ -6,18 +6,16 @@ export function* watchPosts() {
 }
 
 export function* getPosts(action) {
-  yield put({ type: "FLUSH_POSTS" });
-  yield put({ type: "SHOW_SPINNER" });
+  yield put({ type: "FETCH_POSTS_START" });
   try {
     const data = yield call(
       fetch,
       `https://www.reddit.com/r/${action.payload}.json`
     );
     const json = yield data.json();
-    yield put({ type: "ADD_POSTS", payload: json.data.children });
+    yield put({ type: "FETCH_POSTS_SUCCESS", payload: json.data.children });
     yield put({ type: "HIDE_SPINNER" });
   } catch {
-    yield put({ type: "ADD_POSTS", payload: [{ data: { title: "Error!" } }] });
-    yield put({ type: "HIDE_SPINNER" });
+    yield put({ type: "FETCH_POSTS_FAILURE" });
   }
 }

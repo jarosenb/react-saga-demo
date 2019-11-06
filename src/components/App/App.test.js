@@ -26,7 +26,7 @@ it("renders without crashing", () => {
 
 it("mock router state", () => {
   const { getByRole, getByTestId } = render(
-    <Provider store={mockStore({ posts: [] })}>
+    <Provider store={mockStore({ listing: {posts: [] }})}>
       <Router>
         <App />
       </Router>
