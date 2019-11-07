@@ -27,7 +27,7 @@ const renderComponent = (store, history) => {
 };
 describe("posts-listing", () => {
   it("renders post content", () => {
-    const store = mockStore({ listing: { posts: mockPosts, loading: false } });
+    const store = mockStore({ listing: { posts: mockPosts, loading: false, err: false } });
 
     const history = createMemoryHistory();
     history.push("/all");
@@ -44,15 +44,28 @@ describe("posts-listing", () => {
   });
 
   it("shows loading if loading", () => {
-    const store = mockStore({ listing: { posts: mockPosts, loading: true } });
+    const store = mockStore({ listing: { posts: [], loading: true, err: false } });
     const history = createMemoryHistory();
     history.push("/all");
 
-    const { getByText, getAllByRole, getByTestIdm, debug } = renderComponent(
+    const { getByText } = renderComponent(
       store,
       history
     );
 
     expect(getByText(/^loading...$/)).toBeDefined();
+  });
+
+  it("shows error if error", () => {
+    const store = mockStore({ listing: { posts: [], loading: false, err: true } });
+    const history = createMemoryHistory();
+    history.push("/all");
+
+    const { getByText } = renderComponent(
+      store,
+      history
+    );
+
+    expect(getByText(/^There was an error!$/)).toBeDefined();
   });
 });

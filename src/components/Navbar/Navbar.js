@@ -1,8 +1,11 @@
 import React from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, useParams } from "react-router-dom";
 import "./Navbar.css";
 
-export function NavButton({ active, dest, title }) {
+// Memoize this component to prevent unneccessary re-renders
+// We can do this because it always renders the same result given the same props
+// https://reactjs.org/docs/react-api.html#reactmemo
+export const NavButton = React.memo( ({ active, dest, title }) => {
   let history = useHistory();
 
   if (active) {
@@ -24,7 +27,7 @@ export function NavButton({ active, dest, title }) {
       </button>
     );
   }
-}
+})
 
 function Navbar() {
   let location = useLocation();

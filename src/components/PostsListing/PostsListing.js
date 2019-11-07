@@ -10,7 +10,8 @@ function PostsListing() {
   let { id } = useParams();
   let location = useLocation();
   const dispatch = useDispatch();
-  const spinnerState = useSelector(state => state.listing.loading)
+
+  const loadingState = useSelector(state => state.listing.loading)
   const posts = useSelector(state => state.listing.posts)
   const showError = useSelector(state => state.listing.err)
 
@@ -18,7 +19,7 @@ function PostsListing() {
     dispatch({type: "GET_POSTS", payload: id})
   }, [location, dispatch, id])
 
-  if(spinnerState){
+  if(loadingState){
     return <div>loading...</div>
   } else if(showError) {
     return <div>There was an error!</div>
