@@ -1,11 +1,14 @@
-import { put, take, takeLatest, takeEvery, call } from "redux-saga/effects";
-import "cross-fetch";
+import { put, takeLatest, call } from "redux-saga/effects";
+import fetch from "cross-fetch";
 
 export async function fetchData(url) {
-  const resp = await fetch(url)
-  const json = await resp.json()
-  
-  return json.data.children
+  try {
+    const resp = await fetch(url);
+    const json = await resp.json();
+    return json.data.children;
+  } catch (e) {
+    throw new Error('Bad response from server.')
+  }
 }
 
 export function* watchPosts() {

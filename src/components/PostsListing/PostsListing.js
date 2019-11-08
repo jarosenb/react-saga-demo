@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useParams, useLocation } from 'react-router-dom'
 
 
@@ -12,7 +12,7 @@ function PostsListing() {
   const dispatch = useDispatch();
 
   const loadingState = useSelector(state => state.listing.loading)
-  const posts = useSelector(state => state.listing.posts)
+  const posts = useSelector(state => state.listing.posts, shallowEqual)
   const showError = useSelector(state => state.listing.err)
 
   useEffect(() => {

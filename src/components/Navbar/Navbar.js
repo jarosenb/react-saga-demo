@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useHistory, useParams } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import "./Navbar.css";
 
 // Memoize this component to prevent unneccessary re-renders
