@@ -3,7 +3,7 @@ jest.mock("redux-saga/effects", () => ({
   takeLatest: jest.fn()
 }));
 const fetchMock = jest.requireActual("fetch-mock");
-jest.mock("cross-fetch", () => jest.fn());
+jest.mock("cross-fetch");
 import fetch from "cross-fetch";
 import { runSaga } from "redux-saga";
 import { put, call, takeLatest } from "redux-saga/effects";
@@ -92,10 +92,9 @@ describe("sagas", () => {
       .run();
   });
 
-  it("api calls fetch success", async () => {
+  it("api calls fetch success", () => {
     const apiResult = fetchData("https://www.reddit.com/r/all.json");
-    const returnVal = await apiResult;
-    expect(returnVal).toEqual([{ data: { title: "title1" } }]);
+    expect(apiResult).resolves.toEqual([{ data: { title: "title1" } }]);
   });
 
   it("api calls fetch failure", () => {

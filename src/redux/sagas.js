@@ -1,4 +1,4 @@
-import { put, takeLatest, call } from "redux-saga/effects";
+import { put, takeLatest, takeEvery, call, all } from "redux-saga/effects";
 import fetch from "cross-fetch";
 
 export async function fetchData(url) {
@@ -26,4 +26,28 @@ export function* getPosts(action) {
   } catch {
     yield put({ type: "FETCH_POSTS_FAILURE" });
   }
+}
+
+export function* watchSelect() {
+  yield takeEvery('SELECT_POSTS', handleSelect)
+}
+
+export function* handleSelect(action) {
+  yield console.log(action.payload.e.shiftKey)
+  if (action.payload.e.shiftKey) {
+    yield put({type: 'SHIFT_TOGGLE', payload: action.payload })
+  }
+  else if (action.payload.e.ctrlKey) {
+    yield put({type: 'CTRL_TOGGLE', payload: action.payload })
+  }
+  else {
+    yield put({type: 'TOGGLE_POST', payload: action.payload.id })
+  }
+}
+
+export default function* rootSaga() {
+  yield all([
+    watchSelect(),
+    watchPosts()
+  ])
 }
