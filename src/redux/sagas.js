@@ -1,4 +1,4 @@
-import { put, takeLatest, call } from "redux-saga/effects";
+import { put, takeLatest, takeEvery, call, all } from "redux-saga/effects";
 import fetch from "cross-fetch";
 
 export async function fetchData(url) {
@@ -26,4 +26,19 @@ export function* getPosts(action) {
   } catch {
     yield put({ type: "FETCH_POSTS_FAILURE" });
   }
+}
+
+export function* watchRedirect(action) {
+  yield takeEvery("REDIRECT", redirect) 
+}
+
+export function* redirect(action) {
+  yield action.payload.history.push("/aww")
+}
+
+
+export default function* rootSaga() {
+  yield all([
+    watchRedirect(), watchPosts()
+  ])
 }
